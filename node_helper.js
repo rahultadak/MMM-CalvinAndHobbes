@@ -1,7 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const host = 'gocomics.com';
-const comicPath = '/calvinandhobbes/';
+const request = require('request');
+// const fs = require('fs');
 const base = 'https://www.gocomics.com/calvinandhobbes/';
 var today_url = '';
 
@@ -63,8 +63,8 @@ module.exports = NodeHelper.create({
         });
     },
 
-    sendComicNotification: function (in_text) {
-        comic = {text: in_text};
+    sendComicNotification: function (comicLink, day) {
+        comic = {link: comicLink, today: day};
         console.log("Sending new comic");
         this.sendSocketNotification('COMIC', comic);
     },
@@ -74,8 +74,9 @@ module.exports = NodeHelper.create({
             var url = await this.fetchValidComicLinkForToday();
             var html = await axios.get(url);
             var comicUrl = await this.getComicLink(html.data);
-            console.log(comicUrl);
-            this.sendComicNotification(comicUrl);
+            today = new Date().getUTCDay();
+
+            this.sendComicNotification(comicUrl, today);
         }
         catch (e) {
             console.error(e);

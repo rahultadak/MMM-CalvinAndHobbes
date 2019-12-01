@@ -1,12 +1,13 @@
 Module.register("MMM-CalvinAndHobbes", {
     // Default module config.
     defaults: {
-        text: "Hello World! This is my first Module - MMM-CalvinAndHobbes"
+        grayScale: true,
+        invertColors: true,
     },
 
     start: function () {
-        this.text = 'This is first module';
-
+        this.img = null;
+        this.today = '';
         this.getComic();
     },
 
@@ -19,14 +20,23 @@ Module.register("MMM-CalvinAndHobbes", {
     // Override dom generator.
     getDom: function () {
         var wrapper = document.createElement("div");
-        wrapper.innerHTML = this.text;
+        // wrapper.innerHTML = this.text;
+        var img = document.createElement('img');
+        img.id = "cahcontent";
+        img.src = this.img;
+        img.setAttribute("style", "-webkit-filter: " +
+                                (this.config.grayScale && this.today > 0 ? "grayscale(100%) " : "") +
+                                (this.config.invertColors && this.today > 0 ? "invert(100%) " : "") +
+                                ";")
+        wrapper.appendChild(img);
         return wrapper;
     },
 
     socketNotificationReceived: function(notification, payload) {
         if (notification === "COMIC") {
-            Log.log(this.name + "Got new comic " + payload.text + "notification: " + notification);
-            this.text = payload.text;
+            // Log.log(this.name + "Got new comic " + payload.text + "notification: " + notification);
+            this.img = payload.link;
+            this.today = payload.today;
             this.updateDom();
         }
     },
