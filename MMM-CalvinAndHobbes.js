@@ -24,10 +24,10 @@ Module.register("MMM-CalvinAndHobbes", {
     },
 
     socketNotificationReceived: function(notification, payload) {
-        // if (notification === "COMIC") {
+        if (notification === "COMIC") {
             Log.log(this.name + "Got new comic " + payload.text + "notification: " + notification);
             this.text = payload.text;
             this.updateDom();
-        // }
+        }
     },
 });

@@ -1,0 +1,18 @@
+{
+  "name": "mmm-calvinandhobbes",
+  "version": "1.0.0",
+  "description": "Calving and Hobbes module for Magic Mirror",
+  "main": "MMM-CalvinAndHobbes.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rahul Tadakamadla",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3"
+  },
+  "devDependencies": {
+    "jslint": "^0.12.1"
+  }
+}
