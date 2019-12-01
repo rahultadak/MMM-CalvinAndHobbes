@@ -17,6 +17,7 @@ npm install
 			 position: 'top_center',
 			 config: {
                 invertColors: true,
-                grayScale: true
+                grayScale: true,
+                updateInterval: 1000 * 60 * 60 * 12, // 12 Hr
             }
 },

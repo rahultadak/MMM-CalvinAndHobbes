@@ -3,17 +3,21 @@ Module.register("MMM-CalvinAndHobbes", {
     defaults: {
         grayScale: true,
         invertColors: true,
+        updateInterval: 1000 * 60 * 60 * 12, // 12 Hr
     },
 
     start: function () {
         this.img = null;
         this.today = '';
-        this.getComic();
+        self = this;
+        setInterval(function () {
+            self.getComic()
+        }, this.config.updateInterval);
     },
 
     getComic: function () {
         // This should go into another method probably
-        Log.log( this.name + "Into get comic");
+        Log.log( this.name + " Into get comic");
         this.sendSocketNotification('GET_COMIC', this.config);
     },
 
@@ -34,7 +38,7 @@ Module.register("MMM-CalvinAndHobbes", {
 
     socketNotificationReceived: function(notification, payload) {
         if (notification === "COMIC") {
-            // Log.log(this.name + "Got new comic " + payload.text + "notification: " + notification);
+            Log.log(this.name + "Got new comic " + payload.text + "notification: " + notification);
             this.img = payload.link;
             this.today = payload.today;
             this.updateDom();
