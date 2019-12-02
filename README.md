@@ -14,10 +14,10 @@ npm install
 ```js
 {
     module: 'MMM-CalvinAndHobbes',
-			 position: 'top_center',
-			 config: {
-                invertColors: true,
-                grayScale: true,
-                updateInterval: 1000 * 60 * 60 * 12, // 12 Hr
-            }
+	position: 'top_center',
+	config: {
+        invertColors: true,
+        grayScale: true,
+        updateInterval: 1000 * 60 * 60 * 12, // 12 Hr
+    }
 },

@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.0",
-    "cheerio": "^1.0.0-rc.3"
+    "cheerio": "^1.0.0-rc.3",
+    "probe-image-size": "^5.0.0"
   },
   "devDependencies": {
     "jslint": "^0.12.1"

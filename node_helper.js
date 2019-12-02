@@ -1,7 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const request = require('request');
-// const fs = require('fs');
+const probe = require('probe-image-size');
+
 const base = 'https://www.gocomics.com/calvinandhobbes/';
 var today_url = '';
 
@@ -14,7 +14,6 @@ module.exports = NodeHelper.create({
     },
 
     socketNotificationReceived: function(notification, payload) {
-        console.log("Notification: " + notification + " Payload: " + payload);
         if(notification === "GET_COMIC") {
             console.log("Got notification to get the new comic");
             this.sendComic();
@@ -23,33 +22,29 @@ module.exports = NodeHelper.create({
 
     fetchValidComicLinkForToday: function () {
         return new Promise(function (resolve, reject) {
+            console.log("Creating comic link for today");
             var today = new Date();
-            var year = today.getUTCFullYear();
-            var month = today.getUTCMonth() + 1;
+            var year = today.getFullYear();
+            var month = today.getMonth() + 1;
             month = (month < 10 ? '0' : '') + month;
-            var date = (today.getUTCDate() < 10 ? '0' : '') + today.getUTCDate();
+            var date = (today.getDate() < 10 ? '0' : '') + today.getDate();
             today_url = base + year + '/' + month + '/' + date;
-
-            // Reject if some sort of error
-            console.log(today_url);
+            // today_url = base + '2019/11/30';
+            console.log('Link for today: ' + today_url);
             resolve(today_url);
         });
     },
 
     getComicLink: function (html) {
         return new Promise( function (resolve, reject) {
-            console.log("Trying to get comic link");
+            console.log("Trying to get comic link from DOM");
             const $ = cheerio.load(html);
             try {
-                // console.log($('div.comic.container'));
                 $('div.comic.container').each(function () {
-                    console.log("Inside each loop" + this);
                     var data_url = $(this).attr('data-url');
                     if (data_url === today_url) {
                         var comicUrl = $(this).attr('data-image');
-                        console.log("Found data  url: " + $(this).attr('data-url'));
-                        console.log("Found comic url: " + comicUrl);
-
+                        console.log('Comic URL: ' + comicUrl);
                         resolve(comicUrl);
                     }
                     else {
@@ -63,10 +58,20 @@ module.exports = NodeHelper.create({
         });
     },
 
-    sendComicNotification: function (comicLink, day) {
-        comic = {link: comicLink, today: day};
-        console.log("Sending new comic");
-        this.sendSocketNotification('COMIC', comic);
+    sendComicNotification: function (comicLink) {
+        var comic = {};
+
+        probe(comicLink)
+        .then(result => {
+            comic = result;
+            comic.day = new Date().getDay();
+        })
+        .then( () => {
+            console.log("Sending new comic");
+            this.sendSocketNotification('COMIC', comic);
+        });
+
+        
     },
 
     sendComic: async function () {
@@ -74,9 +79,7 @@ module.exports = NodeHelper.create({
             var url = await this.fetchValidComicLinkForToday();
             var html = await axios.get(url);
             var comicUrl = await this.getComicLink(html.data);
-            today = new Date().getUTCDay();
-
-            this.sendComicNotification(comicUrl, today);
+            this.sendComicNotification(comicUrl);
         }
         catch (e) {
             console.error(e);
