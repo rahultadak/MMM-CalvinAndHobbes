@@ -1,5 +1,6 @@
 # MMM-CalvinAndHobbes
- A module for MagicMirror2 that displays the daily Calvin and Hobbes comic.
+A module for MagicMirror2 that displays the daily Calvin and Hobbes comic.
+ 
 ### Manual install
 
 - (1) Clone this repository in your `modules` folder, and install dependencies:
@@ -10,14 +11,18 @@ cd MMM-CalvinAndHobbes
 npm install
 ```
 
-- (2) Add the module to your `config/config.js` file, if you add a `position`, it will display the URL to the remote on the mirror.
+- (2) Add the module to your `config/config.js` file.
 ```js
 {
     module: 'MMM-CalvinAndHobbes',
-	position: 'top_center',
+	position: 'middle_center',
 	config: {
-        invertColors: true,
-        grayScale: true,
+        invertColors: false, # Optional, default: false
+        grayScale: false, # Optional, default: false
         updateInterval: 1000 * 60 * 60 * 12, // 12 Hr
     }
 },
+
+```
+# Screenshot
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
