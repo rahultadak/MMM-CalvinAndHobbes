@@ -17,8 +17,8 @@ npm install
     module: 'MMM-CalvinAndHobbes',
 	position: 'middle_center',
 	config: {
-        invertColors: false, # Optional, default: false
-        grayScale: false, # Optional, default: false
+        invertColors: false, // Optional, default: false
+        grayScale: false, // Optional, default: false
         updateInterval: 1000 * 60 * 60 * 12, // 12 Hr
     }
 },
