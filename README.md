@@ -25,4 +25,4 @@ npm install
 
 ```
 # Screenshot
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+![MMM-CalvinAndHobbes Screenshot](.screenshots/CAH_screenshot.png)
