@@ -1,5 +1,5 @@
 /* The basic container */
-.comiccontainer {
+.cahcomiccontainer {
     overflow: hidden;
 
     /* To make the height of the container exact. */
@@ -8,7 +8,7 @@
     box-sizing: border-box;
 }
 
-#comiccontent {
+#cahcomiccontent {
   white-space: nowrap;
   position: relative;
   overflow: hidden;    /* Required to make ellipsis work */

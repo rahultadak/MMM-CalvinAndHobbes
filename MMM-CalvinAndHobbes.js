@@ -51,15 +51,15 @@ Module.register("MMM-CalvinAndHobbes", {
     },
 
     getStyles: function () {
-        return ['comic.css'];
+        return ['cahcomic.css'];
     },
 
     // Override dom generator.
     getDom: function () {
         var wrapper = document.createElement("div");
         comicWrapper = document.createElement("div");
-        comicWrapper.className = "comiccontainer";
-        comicWrapper.id = 'comicwrapper';
+        comicWrapper.className = "cahcomiccontainer";
+        comicWrapper.id = 'cahcomicwrapper';
         if (this.config.limitComicHeight > 0)
         {
             comicWrapper.style.maxHeight = this.config.limitComicHeight + "px";
@@ -72,7 +72,7 @@ Module.register("MMM-CalvinAndHobbes", {
         comicWrapper.innerHTML = this.text;
 
         var img = document.createElement('img');
-        img.id = "comiccontent";
+        img.id = "cahcomiccontent";
         img.src = this.img;
         img.setAttribute("style", "-webkit-filter: " +
                                 (this.config.grayScale && this.today > 0 ? "grayscale(100%) " : "") +
