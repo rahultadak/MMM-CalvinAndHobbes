@@ -40,19 +40,14 @@ module.exports = NodeHelper.create({
             console.log("Trying to get comic link from DOM");
             const $ = cheerio.load(html);
             try {
-                $('div.comic.container').each(function () {
-                    var data_url = $(this).attr('data-url');
-                    if (data_url === today_url) {
-                        var comicUrl = $(this).attr('data-image');
-                        console.log('Comic URL: ' + comicUrl);
+                const comicUrl = $('div.Comic_comic__7K2CQ button img').attr('src');
+                    console.log('Comic URL: ' + comicUrl);
+                    if (comicUrl != null) {
                         resolve(comicUrl);
-                    }
-                    else {
+                    } else {
                         throw Error("Could not find the right Element");
                     }
-                });
-            }
-            catch (e) {
+            } catch (e) {
                 reject(e);
             }
         });
