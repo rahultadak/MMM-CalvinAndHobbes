@@ -44,7 +44,6 @@ module.exports = NodeHelper.create({
                   console.log("Found IMG SRC:", $(elem).attr('src'));
                 });
                 const comicUrl = $('div[class^="Comic_comic"] button img').attr('src');
->>>>>>> 202d421 (Fixed the image getter to prevent it from pulling images we didn't want that were using the same DOM class name)
                     console.log('Comic URL: ' + comicUrl);
                     if (comicUrl != null) {
                         resolve(comicUrl);
