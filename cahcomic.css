@@ -8,10 +8,11 @@
     box-sizing: border-box;
 }
 
+/*
 #cahcomiccontent {
   white-space: nowrap;
   position: relative;
-  overflow: hidden;    /* Required to make ellipsis work */
+  overflow: hidden; 
   text-overflow: clip;
   
   top: 0%;
@@ -19,4 +20,33 @@
   -webkit-transition: top 3s, height 3s;
   -moz-transition: top 3s, height 3s;
   transition: top 3s, height 3s;
+}
+*/
+/* Default comic style */
+#cahcomiccontent {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  transition: all 0.3s ease-in-out !important;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+/* Expanded full-screen mode */
+#cahcomiccontent.expanded {
+  max-height: none !important;
+  width: auto !important;
+  height: auto !important;
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  background: rgba(0, 0, 0, 0.9) !important;
+  padding: 20px !important;
+  z-index: 9999 !important;
+  display: block !important;
+  max-width: 90vw !important;
+  max-height: 90vh !important;
 }

@@ -57,9 +57,10 @@ Module.register("MMM-CalvinAndHobbes", {
     // Override dom generator.
     getDom: function () {
         var wrapper = document.createElement("div");
-        comicWrapper = document.createElement("div");
+        var comicWrapper = document.createElement("div");
         comicWrapper.className = "cahcomiccontainer";
         comicWrapper.id = 'cahcomicwrapper';
+
         if (this.config.limitComicHeight > 0)
         {
             comicWrapper.style.maxHeight = this.config.limitComicHeight + "px";
@@ -77,9 +78,43 @@ Module.register("MMM-CalvinAndHobbes", {
         img.setAttribute("style", "-webkit-filter: " +
                                 (this.config.grayScale && this.today > 0 ? "grayscale(100%) " : "") +
                                 (this.config.invertColors && this.today > 0 ? "invert(100%) " : "") +
-                                ";")
+                                ";");
+
         comicWrapper.appendChild(img);
         wrapper.appendChild(comicWrapper);
+
+        // Ensure event listener is attached every time DOM updates
+        setTimeout(() => {
+            let comicImage = document.getElementById("cahcomiccontent");
+            if (comicImage) {
+                console.log("Comic image found! Adding event listener.");
+                comicImage.addEventListener("click", function (event) {
+                    event.stopPropagation(); // Prevent bubbling issues
+                    console.log("Comic clicked!");
+                    if (!this.classList.contains("expanded")) {
+                       this.classList.toggle("expanded");
+                       document.body.appendChild(this);
+                       document.body.classList.add("expanded-mode");
+                    } else {
+                          this.classList.remove("expanded");
+                          document.getElementById("cahcomicwrapper").appendChild(this);
+                          document.body.classList.remove("expanded-mode");
+                    }
+                });
+
+                // Close image when clicking outside
+                document.body.addEventListener("click", function (event) {
+                    if (!comicImage.contains(event.target)) {
+                        console.log("Click outside detected. Closing expanded comic.");
+                        comicImage.classList.remove("expanded");
+                        document.getElementById("cahcomicwrapper").appendChild(comicImage);
+                        document.body.classList.remove("expanded-mode"); 
+                   }
+                }, true);
+            } else {
+                console.warn("Comic image not found in DOM.");
+            }
+        }, 1000); // Small delay to allow MM to update DOM
         return wrapper;
     },
 

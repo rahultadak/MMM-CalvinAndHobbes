@@ -29,7 +29,6 @@ module.exports = NodeHelper.create({
             month = (month < 10 ? '0' : '') + month;
             var date = (today.getDate() < 10 ? '0' : '') + today.getDate();
             today_url = base + year + '/' + month + '/' + date;
-            // today_url = base + '2019/11/30';
             console.log('Link for today: ' + today_url);
             resolve(today_url);
         });
@@ -39,8 +38,13 @@ module.exports = NodeHelper.create({
         return new Promise( function (resolve, reject) {
             console.log("Trying to get comic link from DOM");
             const $ = cheerio.load(html);
+            $('div[class^="ShowFiveFavorites"]').remove();
             try {
-                const comicUrl = $('div.Comic_comic__7K2CQ button img').attr('src');
+                $('div[class^="Comic_comic"] button img').each(function (i, elem) {
+                  console.log("Found IMG SRC:", $(elem).attr('src'));
+                });
+                const comicUrl = $('div[class^="Comic_comic"] button img').attr('src');
+>>>>>>> 202d421 (Fixed the image getter to prevent it from pulling images we didn't want that were using the same DOM class name)
                     console.log('Comic URL: ' + comicUrl);
                     if (comicUrl != null) {
                         resolve(comicUrl);
@@ -65,14 +69,18 @@ module.exports = NodeHelper.create({
             console.log("Sending new comic");
             this.sendSocketNotification('COMIC', comic);
         });
-
-        
     },
 
     sendComic: async function () {
         try {
             var url = await this.fetchValidComicLinkForToday();
-            var html = await axios.get(url);
+            var html = await axios.get(url, {
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36 Edg/134.0.0.0',
+                },
+	    });
             var comicUrl = await this.getComicLink(html.data);
             this.sendComicNotification(comicUrl);
         }
